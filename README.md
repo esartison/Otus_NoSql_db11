@@ -221,7 +221,57 @@ student:~/elastic$ curl -X GET "localhost:9200/es_index/_search?pretty"
 ```
 
 ## Написать запрос нечеткого поиска к этой коллекции документов ко ключу «мама ела сосиски»
-
+Поиск вернул 2 документа из 3х
+```
+student:~/elastic$ curl -X POST "http://localhost:9200/es_index/_search?pretty" \
+     -H 'Content-Type: application/json' \
+     -d '{
+       "query": {
+         "match": {
+           "name": "мама ела сосиски"
+         }
+       }
+     }'
+{
+  "took" : 148,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 2,
+      "relation" : "eq"
+    },
+    "max_score" : 1.241674,
+    "hits" : [
+      {
+        "_index" : "es_index",
+        "_id" : "7L_HLaABXTdniXK1vIwc",
+        "_score" : 1.241674,
+        "_source" : {
+          "name" : "моя мама мыла посуду а кот жевал сосиски",
+          "id" : 1,
+          "score" : "4"
+        }
+      },
+      {
+        "_index" : "es_index",
+        "_id" : "7b_JLaABXTdniXK1kIyf",
+        "_score" : 0.5820575,
+        "_source" : {
+          "name" : "мама мыла раму",
+          "id" : 1,
+          "score" : "13"
+        }
+      }
+    ]
+  }
+}
+```
 
 ##  Расшарить коллекцию postman (желательно сдавать в таком формате)  ## 
 не могу сделать, так-как делал локально
